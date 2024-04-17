@@ -1,0 +1,14 @@
+---
+- hosts: test:!py10
+  gather_facts: yes
+  tasks: []
+
+- hosts: py10
+  tasks:
+    - name: Die Namen aller anderen Test-Hosts in Datei eintragen
+      copy:
+        dest: /tmp/serverlist.txt
+        content: |
+          {% for h in groups['test'] if not h == 'py10' %}
+          {{ hostvars[h]['ansible_hostname'] ~ ' ist dabei' }}
+          {% endfor %}

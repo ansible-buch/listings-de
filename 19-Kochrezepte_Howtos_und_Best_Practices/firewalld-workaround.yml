@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Status des firewalld-Service prüfen
+      shell: systemctl is-active firewalld.service || true
+      register: firewalld_status_cmd
+      changed_when: false
+
+    - name: Ports für HTTP(S) öffnen, falls firewalld aktiv
+      firewalld:
+        service: "{{item}}"
+        state: enabled
+        permanent: yes
+        immediate: yes
+      with_items: [ http, https ]
+      when: firewalld_status_cmd.stdout == "active"

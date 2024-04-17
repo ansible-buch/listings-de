@@ -7,19 +7,9 @@
       debug: msg="Hallo Ansible!"
       tags: hallo
       
-    - name: Auslastung Root-FS bestimmen
-      command: df -h /
-      register: df_cmd
-      changed_when: false
-      tags: df
-      
-    - name: Ausgabe-Format 1
-      debug: msg="{{ df_cmd.stdout }}"
-      tags: [test, format1]
-
-    - name: Ausgabe-Format 2
-      debug: var=df_cmd.stdout_lines
-      tags: [test, format2]
+    - name: Eine weitere Meldung
+      debug: msg="Alles soweit gut hier"
+      tags: [test, meldung]
 
     - name: Das wars
       debug: msg="Fertig"

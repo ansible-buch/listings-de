@@ -1,0 +1,15 @@
+---
+- hosts: py10
+  tasks:
+    - setup:
+      delegate_to: "{{item}}"
+      delegate_facts: yes
+      with_items: "{{groups['test']}}"
+
+    - name: Die Namen aller anderen Test-Hosts in Datei eintragen
+      copy:
+        dest: /tmp/serverlist.txt
+        content: |
+          {% for h in groups['test'] if not h == 'py10' %}
+          {{ hostvars[h]['ansible_hostname'] ~ ' ist dabei' }}
+          {% endfor %}

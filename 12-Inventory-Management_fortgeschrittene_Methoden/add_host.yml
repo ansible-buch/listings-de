@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Hosts bekannt machen
+      add_host:
+        hostname: "{{item.ip}}"
+        groups: temp_group
+        ansible_become: yes
+        ansible_ssh_common_args: >
+          -o StrictHostKeyChecking=no
+          -o UserKnownHostsFile=/dev/null
+      with_items:
+        - ip: 192.168.150.10
+        - ip: 192.168.150.20
+
+- hosts: temp_group
+  tasks:
+    - debug: msg="Hallo {{inventory_hostname}}"
+    - command: head -1 /etc/shadow

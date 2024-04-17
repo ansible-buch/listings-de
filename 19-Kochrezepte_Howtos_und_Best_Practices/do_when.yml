@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+  
+  tasks:
+    - name: Verzeichnis /tmp/test123 anlegen
+      file:
+        path: /tmp/test123
+        state: directory
+      register: file_task
+
+    - debug:
+        msg: "Es gab eine Änderung!"
+      when: file_task.changed

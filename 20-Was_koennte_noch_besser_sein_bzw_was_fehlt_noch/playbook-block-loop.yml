@@ -1,0 +1,12 @@
+---
+### [Achtung: Dieses Playbook ist nicht lauffähig!] ###
+- hosts: localhost
+
+  tasks:
+    - block:
+      - debug: msg="Hallo {{item}}"
+      - debug: msg="Nochmal hallo {{item}}"
+      with_items:
+        - Hund
+        - Katze
+        - Maus

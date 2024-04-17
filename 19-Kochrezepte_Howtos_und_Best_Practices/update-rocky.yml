@@ -1,0 +1,24 @@
+---
+- hosts: 
+    - rocky
+
+  tasks:
+    - name: Hilfspaket installieren
+      yum:
+        name: yum-utils
+
+    - name: Alle Pakete aktualisieren
+      yum: 
+        name: '*'
+        state: latest
+
+    - name: Feststellen, ob ein Reboot erforderlich ist
+      command: needs-restarting -r
+      changed_when: false
+      failed_when: false
+      register: reboot_required
+
+    - name: Reboot
+      reboot:
+      # (Das reboot-Modul bietet auch viele Parameter!)
+      when: reboot_required.rc != 0

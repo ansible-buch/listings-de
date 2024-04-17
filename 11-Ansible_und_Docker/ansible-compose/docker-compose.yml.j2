@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=geheim
+    volumes:
+      - data:/var/lib/mysql
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
+    ports:
+      - {{web_port}}:8080
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+
+volumes:
+  data:

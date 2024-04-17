@@ -1,0 +1,35 @@
+---
+- name: ansible-bender Playbook
+  hosts: all
+  vars:
+    ansible_bender:
+      base_image: "myhttpd:2.4"
+      target_image:
+        name: cgiapp
+
+  tasks:
+    - name: Perl-CGI-Modul installieren
+      apt:
+        update_cache: yes
+        name: 
+          - libcgi-pm-perl
+
+    - name: Module cgi und rewrite aktivieren
+      replace:
+        path: /usr/local/apache2/conf/httpd.conf
+        regexp: '#(LoadModule {{item}}.*)'
+        replace: '\1'
+      with_items: [cgid, rewrite]
+
+    - name: App hineinkopieren
+      copy:
+        src: app.pl
+        dest: /usr/local/apache2/cgi-bin
+        mode: 0755
+    
+    - name: Interne Weiterleitung konfigurieren
+      blockinfile:
+        path: /usr/local/apache2/conf/httpd.conf
+        block: |
+          RewriteEngine On
+          RewriteRule ^/$ /cgi-bin/app.pl [NC,PT]

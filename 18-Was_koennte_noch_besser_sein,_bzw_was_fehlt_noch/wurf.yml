@@ -1,8 +1,0 @@
----
-- shell: "echo $(( $RANDOM % 6 + 1))"
-  register: wurf
-  changed_when: false
-  args:
-    executable: /bin/bash
-
-- debug: msg="Es wurde eine {{wurf.stdout}} gewürfelt"

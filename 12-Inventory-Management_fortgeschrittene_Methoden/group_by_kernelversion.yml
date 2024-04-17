@@ -1,0 +1,16 @@
+---
+- name: Gruppieren nach Major-Kernelversion
+  hosts: all
+  tasks:
+    - group_by: key=kernel_{{ ansible_kernel | regex_search('^\d+') }}
+
+
+- name: Alle Hosts mit Kernel 4.x
+  hosts: kernel_4
+  tasks:
+    - debug: msg="Hier läuft noch ein 4er-Kernel ({{ansible_kernel}})"
+
+- name: Alle Hosts mit Kernel 5.x
+  hosts: kernel_5
+  tasks:
+    - debug: msg="Hier läuft ein 5er-Kernel ({{ansible_kernel}})"

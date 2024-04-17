@@ -1,6 +1,0 @@
----
-- hosts: localhost
-
-  tasks:
-    - include_tasks: wurf.yml
-      until: wurf.stdout == "6"

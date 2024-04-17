@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+
+  vars:
+    number: 10
+    state: started
+    prefix: py
+
+  tasks:
+    - docker_container:
+        name: "{{prefix}}{{item}}"
+        hostname: "{{prefix}}{{item}}"
+        image: python:3-slim
+        state: "{{state}}"
+        interactive: yes
+        tty: yes
+        container_default_behavior: no_defaults
+      with_sequence: start=1 end={{number}} format=%02d

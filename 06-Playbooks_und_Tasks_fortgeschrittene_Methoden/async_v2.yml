@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Dieser Task braucht etwa 10 Sekunden
+      shell: |
+        for i in $(seq 10); do date >>/tmp/task1; sleep 1; done
+      async: 1000
+      poll: 0
+      register: task1
+
+    - name: Dieser Task braucht etwa 15 Sekunden
+      shell: |
+        for i in $(seq 15); do date >>/tmp/task2; sleep 1; done
+      async: 1000
+      poll: 0
+      register: task2
+
+    - name: Check tasks
+      async_status: jid={{ item.ansible_job_id }}
+      register: result
+      until: result.finished
+      retries: 30
+      delay: 1
+      with_items:
+        - "{{task1}}"
+        - "{{task2}}"

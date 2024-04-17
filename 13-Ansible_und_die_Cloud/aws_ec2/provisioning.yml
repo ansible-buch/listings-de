@@ -1,0 +1,39 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Security-Gruppe anlegen
+      ec2_group:
+        name: sg1
+        description: Eine Testgruppe
+        rules:
+          - proto: tcp
+            ports: [22]
+            cidr_ip: 0.0.0.0/0
+            rule_desc: SSH erlauben
+          - proto: icmp
+            ports: [-1]
+            cidr_ip: 0.0.0.0/0
+            rule_desc: ICMP erlauben
+            
+    - name: SSH-Key hochladen
+      ec2_key:
+          name: sshkey_amazon
+          key_material: >
+            {{ lookup('file', 
+                      playbook_dir + '/../resources/ssh/amazon.pub') }}"
+
+    - name: Instance/Server mit Ubuntu 20.04 anlegen
+      ec2_instance:
+        name: srv01
+        instance_type: t2.nano
+        key_name: sshkey_amazon
+        network:
+          assign_public_ip: true
+        security_group: sg1
+        # Siehe https://cloud-images.ubuntu.com/locator/ec2/
+        image_id: ami-05b308c240ae70bb6
+        tags:
+          os: ubuntu
+          typ: testsystem
+          zweck: spielerei

@@ -1,0 +1,48 @@
+---
+- hosts: ubuntu
+
+  vars:
+    network_name:      dbnet
+    volume_name:       mariadb_data
+    db_admin_password: geheim
+    web_port:          8080
+
+  tasks:
+    - name: Eigenes Netzwerk anlegen
+      docker_network:
+        name: "{{network_name}}"
+
+    - name: Datenvolume für MariaDB anlegen
+      docker_volume:
+        name: "{{volume_name}}"
+  
+
+    - name: MariaDB-Container anlegen
+      docker_container:
+        name: mariadb
+        image: mariadb
+        container_default_behavior: no_defaults
+        networks:
+          - name: dbnet
+        networks_cli_compatible: yes
+        network_mode: default
+        volumes:
+          - "{{volume_name}}:/var/lib/mysql"
+        restart_policy: unless-stopped
+        env:
+          MARIADB_ROOT_PASSWORD: "{{db_admin_password}}"
+
+    - name: Adminer-Container anlegen
+      docker_container:
+        name: adminer
+        image: adminer
+        container_default_behavior: no_defaults
+        networks:
+          - name: dbnet
+        networks_cli_compatible: yes
+        network_mode: default
+        restart_policy: unless-stopped
+        env:
+          ADMINER_DEFAULT_SERVER: mariadb
+        published_ports:
+          - '{{web_port}}:8080'

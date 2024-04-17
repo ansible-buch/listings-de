@@ -1,0 +1,10 @@
+---
+plugin: hcloud
+
+keyed_groups:
+  - key: image_os_flavor
+    prefix: os
+  - key: status
+    prefix: server_status
+  - key: labels
+    prefix: label

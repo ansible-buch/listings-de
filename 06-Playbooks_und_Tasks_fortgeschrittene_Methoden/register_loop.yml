@@ -1,0 +1,14 @@
+---
+- hosts: debian 
+  gather_facts: no
+
+  tasks:
+    - command: du -sh {{item}}
+      with_items:
+        - /etc
+        - /home
+        - /var
+      changed_when: false
+      register: du_cmd
+
+    - debug: var=du_cmd

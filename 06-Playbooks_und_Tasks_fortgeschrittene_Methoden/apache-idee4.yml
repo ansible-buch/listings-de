@@ -2,7 +2,8 @@
 - hosts: all
 
   tasks:
-    - include_vars: apache_{{ansible_os_family}}.yml
+    - include_vars: >
+        apache_{{ ansible_distribution | lower | replace(" ", "-") }}.yml
 
     - name: Apache installieren
       package:

@@ -1,0 +1,28 @@
+---
+- hosts: test
+  order: sorted  ### [alphabetische Startreihenfolge] ###
+  vars:
+    same:   yes
+    factor: 1.0
+
+  tasks:
+    - set_fact:
+        duration: >-
+          {%- if same|bool -%}
+            {{ factor|float }}
+          {%- else -%}
+            {{ (inventory_hostname|regex_search('\d+')|int) * factor|float }}
+          {%- endif -%}
+
+    - debug:
+        msg: >-
+          [INFO] {{inventory_hostname}}: Pausiere für {{duration}} Sekunden
+
+    - command: sleep {{duration}}
+      changed_when: false
+      throttle: 1  ### [in diesem Task keine Parallelität] ###
+
+    - debug:
+        msg: >-
+          [INFO] {{inventory_hostname}}:
+          Fertig um {{lookup('pipe', 'date +%T')}}

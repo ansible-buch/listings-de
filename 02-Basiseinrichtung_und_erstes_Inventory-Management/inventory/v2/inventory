@@ -1,41 +1,11 @@
 [test_hosts]
-debian  ansible_host=192.168.150.10
-centos  ansible_host=192.168.150.20
-suse    ansible_host=192.168.150.30
-ubuntu  ansible_host=192.168.150.40
-
-[debian_hosts]
 debian
-
-[centos_hosts]
-centos
-
-[suse_hosts]
+rocky
 suse
-
-[ubuntu_hosts]
 ubuntu
-
-########## Parametrisierung: ##########
 
 [test_hosts:vars]
 ansible_python_interpreter=/usr/bin/python3
-ansible_ssh_common_args='-o StrictHostKeyChecking=no'
-
-[debian_hosts:vars]
-ansible_user=ansible
-ansible_become=yes
-ansible_become_pass=ansible
-
-[centos_hosts:vars]
-ansible_user=ansible
-ansible_become=yes
-ansible_become_method=su
-ansible_become_pass=ansible
-
-[suse_hosts:vars]
-ansible_user=root
-
-[ubuntu_hosts:vars]
-ansible_user=ansible
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+ansible_user=vagrant
 ansible_become=yes

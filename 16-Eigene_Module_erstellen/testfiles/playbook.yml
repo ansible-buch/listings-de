@@ -1,9 +1,0 @@
-- hosts: localhost
-  
-  tasks:
-    - name: 20 Testdateien anlegen
-      testfiles:
-        path: /tmp
-        number: 20
-        format: "test%g.txt"
-        state: present

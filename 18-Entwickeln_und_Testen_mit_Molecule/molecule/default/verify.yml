@@ -1,0 +1,27 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+
+  tasks:
+    - name: PostgreSQL apt key is in key list 
+      command: apt-key list PostgreSQL
+      changed_when: false
+      register: apt_key_list_cmd
+      failed_when: "'PostgreSQL' not in apt_key_list_cmd.stdout"
+    
+    - name: /etc/apt/sources.list.d/postgresql.list has correct content
+      lineinfile:
+        path: /etc/apt/sources.list.d/postgresql.list
+        regexp: "^deb http://apt.postgresql.org/pub/repos/apt.*main$"
+        state: absent
+      check_mode: yes
+      register: conf
+      failed_when: conf is not changed
+
+    - name: PostgreSQL service is running
+      wait_for:
+        port: 5432
+        timeout: 30
+      register: port_check
+      failed_when: port_check.failed

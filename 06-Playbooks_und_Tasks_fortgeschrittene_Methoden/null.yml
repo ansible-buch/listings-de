@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    # var1 ist vorhanden, hat aber keinen Wert:
+    var1: NULL
+    # var2 ist nicht einmal da.
+
+  tasks:
+    # Ein 'debug: var='-Task hat nie ein Problem:
+    - debug: var=var1
+    - debug: var=var2
+
+    # Für einen Jinja-Zugriff müssen Variablen aber vorhanden sein:
+    - debug: msg={{ var1 }}
+    - debug: msg={{ var2 }}
+      ignore_errors: true
+
+    # Test des Ist-Zustandes in Ansible:
+    - debug: msg="var1 ist vorhanden, hat aber keinen Wert"
+      when: var1 is defined and var1 == None
+    - debug: msg="var2 ist nicht vorhanden"
+      when: var2 is undefined
+    - debug: msg="Vergleichen dürfen wir deswegen auch nicht mit None"
+      when: var2 == None
+      ignore_errors: true
+
+    # Dasselbe im Jinja-Kontext:
+    - debug: 
+        msg: >-
+          {% if var1 is defined and var1 == None %}
+          Dasselbe mit var1 in Jinja
+          {% endif %}
+    - debug: 
+        msg: >-
+          {% if var2 is undefined %}
+          Dasselbe mit var2 in Jinja
+          {% endif %}
+
+    # Geben wir var2 nun einen Wert:
+    - set_fact:
+        var2: 'Hallo'
+
+    - debug: msg="var2 ist nun vorhanden und hat auch einen Wert"
+      when: var2 is defined and var2 != None

@@ -6,20 +6,23 @@
       Debian:
         package_name: apache2
         service_name: apache2
-      RedHat:
+      Ubuntu:
+        package_name: apache2
+        service_name: apache2
+      Rocky:
         package_name: httpd
         service_name: httpd
-      Suse:
+      openSUSE Leap:
         package_name: apache2
         service_name: apache2
 
   tasks:
     - name: Apache installieren
       package:
-        name: "{{apache[ansible_os_family].package_name}}"
+        name: "{{apache[ansible_distribution].package_name}}"
 
     - name: Dienst starten und in Bootprozess integrieren
       service:
-        name: "{{apache[ansible_os_family].service_name}}"
+        name: "{{apache[ansible_distribution].service_name}}"
         state: started
         enabled: yes

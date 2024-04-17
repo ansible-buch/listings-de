@@ -1,0 +1,26 @@
+---
+- hosts: test
+  vars:
+    same:   yes
+    factor: 1.0
+
+  tasks:
+    - set_fact:
+        duration: >-
+          {%- if same|bool -%}
+            {{ factor|float }}
+          {%- else -%}
+            {{ (inventory_hostname|regex_search('\d+')|int) * factor|float }}
+          {%- endif -%}
+
+    - debug:
+        msg: >-
+          [INFO] {{inventory_hostname}}: Pausiere für {{duration}} Sekunden
+
+    - command: sleep {{duration}}
+      changed_when: false
+
+    - debug:
+        msg: >-
+          [INFO] {{inventory_hostname}}:
+          Fertig um {{lookup('pipe', 'date +%T')}}

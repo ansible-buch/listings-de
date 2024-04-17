@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  gather_facts: false
+  
+  tasks:
+    - include_tasks: some_tasks.yml
+      tags: tasks

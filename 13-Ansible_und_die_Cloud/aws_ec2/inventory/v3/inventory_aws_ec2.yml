@@ -1,0 +1,7 @@
+---
+plugin: aws_ec2
+
+cache: yes
+cache_plugin: jsonfile
+cache_timeout: 3600
+cache_connection: ~/.ansible/inventory_cache

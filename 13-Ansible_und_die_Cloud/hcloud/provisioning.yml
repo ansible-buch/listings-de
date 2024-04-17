@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: SSH-Key hochladen
+      hcloud_ssh_key:
+        name: sshkey_hetzner
+        public_key: >
+          {{ lookup('file',
+                    playbook_dir + '/../resources/ssh/hetzner.pub') }}"
+        state: present
+
+    - name: Server mit Debian 11 anlegen
+      hcloud_server:
+        name: srv01
+        server_type: cx11
+        location: nbg1
+        image: debian-11
+        ssh_keys:
+          - sshkey_hetzner
+        labels:
+          typ: testsystem
+          zweck: spielerei
+        state: present

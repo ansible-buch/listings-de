@@ -1,0 +1,4 @@
+---
+plugin: community.docker.docker_containers
+groups:
+  test: inventory_hostname.startswith('py')

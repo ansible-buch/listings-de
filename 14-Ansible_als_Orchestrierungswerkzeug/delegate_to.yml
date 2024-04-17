@@ -1,0 +1,10 @@
+---
+- hosts: test:!py10
+  tasks:
+    - name: Die Namen aller anderen Test-Hosts in Datei auf py10 eintragen
+      lineinfile:
+        path: /tmp/serverlist.txt
+        create: yes
+        line: "{{ansible_hostname}} ist dabei"
+        regexp: "^{{ansible_hostname}}.*"
+      delegate_to: py10

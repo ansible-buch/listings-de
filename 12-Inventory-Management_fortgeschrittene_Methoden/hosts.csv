@@ -1,0 +1,5 @@
+host:user:become:method:password
+debian:vagrant:yes:sudo:
+rocky:vagrant:yes:su:vagrant
+suse:vagrant:yes:sudo:
+ubuntu:vagrant:yes:sudo:

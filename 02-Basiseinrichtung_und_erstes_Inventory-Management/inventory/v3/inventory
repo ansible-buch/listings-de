@@ -1,0 +1,27 @@
+[debian_hosts]
+debian10   ansible_host=192.168.150.10  ansible_user=root
+
+[centos_hosts]
+centos7    ansible_host=192.168.150.20
+
+[ubuntu_hosts]
+ubuntu1804 ansible_host=192.168.150.40
+
+
+[centos_hosts:vars]
+ansible_user=ansible
+ansible_password=Supergeheim22!
+ansible_become=yes
+ansible_become_method=su
+ansible_become_pass=RootPassw0rd
+ansible_python_interpreter=/usr/bin/python2
+
+[ubuntu_hosts:vars]
+ansible_user=user1
+ansible_ssh_private_key_file=keys/ubuntu
+ansible_become=yes
+ansible_become_pass=vmware
+
+[all:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'

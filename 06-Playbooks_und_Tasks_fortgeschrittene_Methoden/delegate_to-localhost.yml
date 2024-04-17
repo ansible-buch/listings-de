@@ -1,4 +1,4 @@
-- hosts: [debian, centos, ubuntu]
+- hosts: all:!suse
 
   tasks:
     - name: Pinguin-Bild herunterladen

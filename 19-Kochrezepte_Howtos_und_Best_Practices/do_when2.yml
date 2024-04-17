@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: no
+  
+  tasks:
+    - command: "echo 'No'"
+      register: cmd_task
+
+    - debug:
+        msg: "Es hat 'Yes' gesagt!"
+      when: cmd_task.stdout | bool

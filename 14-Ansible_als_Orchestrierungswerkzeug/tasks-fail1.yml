@@ -1,0 +1,10 @@
+---
+- hosts: test
+  serial: 5
+  order: sorted
+
+  tasks:
+    - fail:
+      when: inventory_hostname not in ['py01', 'py06']
+
+    - debug: msg="{{inventory_hostname}} hat's geschafft."

@@ -2,11 +2,12 @@
 - hosts: all
 
   tasks:
-    - name: System-spezifische Parameter laden
-      include_vars: apache_{{ansible_os_family}}.yml
+    - name: Systemspezifische Parameter laden
+      include_vars: >
+        apache_{{ ansible_distribution | lower | replace(" ", "-") }}.yml
 
     - name: Paketlisten auf Debian-Systemen aktualisieren
-      apt: 
+      apt:
         update_cache: yes
         cache_valid_time: 3600
       when: ansible_os_family == "Debian"
@@ -43,7 +44,7 @@
         content: |
           Redirect /go http://www.google.de
       notify: reload apache
- 
+
     - name: Config aktivieren (nur auf Debian-System nötig)
       command:
         cmd: a2enconf redirect

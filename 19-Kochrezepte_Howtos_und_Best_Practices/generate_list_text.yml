@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    liste:
+      - Hund
+      - Katze
+      - Maus
+
+  tasks:
+    - debug: 
+        msg: >-
+          {{ liste | map('regex_replace', '^(.*)$', '>>>\1<<<') | join('|') }}

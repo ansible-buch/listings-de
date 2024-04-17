@@ -1,0 +1,4 @@
+---
+liste_text: >
+  {{ liste | join(', ') }}
+mehr_text: Dies ist vielleicht alles falsch eingefärbt

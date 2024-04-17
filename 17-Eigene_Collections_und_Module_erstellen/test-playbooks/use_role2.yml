@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+
+  collections:
+    - local.demo
+
+  roles:
+    - name: hallo

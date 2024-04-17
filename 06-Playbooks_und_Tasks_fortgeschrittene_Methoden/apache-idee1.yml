@@ -2,17 +2,17 @@
 - hosts: all
 
   tasks:
-    - name: Apache auf Debian-Systemen installieren
+    - name: Apache auf Debian/Ubuntu-Systemen installieren
       apt:
         name: apache2
       when: ansible_os_family == "Debian"
 
-    - name: Apache auf CentOS-Systemen installieren
+    - name: Apache auf Rocky-Systemen installieren
       yum:
         name: httpd
-      when: ansible_os_family == "RedHat"
+      when: ansible_distribution == "Rocky"
 
     - name: Apache auf SUSE-Systemen installieren
       zypper:
         name: apache2
-      when: ansible_os_family == "Suse"
+      when: ansible_distribution == "openSUSE Leap"

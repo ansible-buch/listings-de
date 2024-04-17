@@ -1,0 +1,12 @@
+- hosts: localhost
+  
+  tasks:
+    - name: Berechne die Summe zweier Zahlen
+      local.demo.rechnen:
+        zahl1: 3
+        zahl2: 4
+        rechenart: "+"
+      register: rechenaufgabe
+      
+    - debug:
+        msg: Das Ergebnis der Berechnung ist {{rechenaufgabe.ergebnis}}

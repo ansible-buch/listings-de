@@ -2,20 +2,20 @@
 - hosts: all
 
   tasks:
-    - name: Parameter für Debian-Systeme
+    - name: Parameter für Debian/Ubuntu-Systeme
       set_fact:
         apache_package_name: apache2
       when: ansible_os_family == "Debian"
 
-    - name: Parameter für CentOS-Systeme
+    - name: Parameter für Rocky-Systeme
       set_fact:
         apache_package_name: httpd
-      when: ansible_os_family == "RedHat"
+      when: ansible_distribution == "Rocky"
 
     - name: Parameter für SUSE-Systeme
       set_fact:
         apache_package_name: apache2
-      when: ansible_os_family == "Suse"
+      when: ansible_distribution == "openSUSE Leap"
 
 
     - name: Apache installieren
