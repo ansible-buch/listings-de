@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  vars:
+    tiere:
+      - name: Hund
+        laute:
+          - Wuff
+          - Knurr
+      - name: Katze
+        laute:
+          - Miau
+      - name: Maus
+
+  tasks:
+    - name: Verschachtelte Schleife über Subelemente
+      debug: msg="{{ item[0].name }} macht {{ item[1] }}."
+      with_subelements:
+        - '{{ tiere }}'
+        - laute
+        - { skip_missing: 1 }

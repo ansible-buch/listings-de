@@ -1,0 +1,5 @@
+host:user:method:password
+debian:ansible:sudo:ansible
+centos:ansible:su:ansible
+suse:root::
+ubuntu:ansible:sudo:

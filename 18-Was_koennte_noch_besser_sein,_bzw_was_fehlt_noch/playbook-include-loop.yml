@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - include_tasks: sometasks.yml
+      with_items:
+        - Hund
+        - Katze
+        - Maus

@@ -1,0 +1,10 @@
+---
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Suche nach "debian" in der Datei /etc/os-release
+      command: grep -i debian /etc/os-release
+      changed_when: false
+
+    - debug: msg="Es geht weiter..."

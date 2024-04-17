@@ -1,0 +1,13 @@
+---
+- hosts: all
+
+  tasks:
+    - block:
+
+      - name: Nur auf Debian
+        debug: msg="Nur auf Debian"
+
+      - name: Noch was nur auf Debian
+        debug: msg="Das auch nur auf Debian"
+      
+      when: ansible_os_family == "Debian"

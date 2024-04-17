@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+
+  vars:
+    lock_file_path: /tmp/ansible-playbook.lock
+
+  pre_tasks: 
+    - stat: 
+        path: "{{lock_file_path}}"
+      register: lock_file
+
+    - fail: 
+        msg: "Vermutlich läuft dieses Playbook bereits. Abbruch."
+      when: lock_file.stat.exists and not force_ignore_lock|default(false)
+
+    - name: Lockdatei anlegen
+      file: 
+        path: "{{lock_file_path}}"
+        state: touch
+
+  post_tasks:
+    - name: Lockdatei löschen
+      file: 
+        path: "{{lock_file_path}}"
+        state: absent
+
+  tasks: 
+    - pause:
+        seconds: 10

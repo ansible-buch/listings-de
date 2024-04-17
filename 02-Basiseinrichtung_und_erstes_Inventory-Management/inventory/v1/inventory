@@ -1,0 +1,9 @@
+[test_hosts]
+debian
+centos
+suse   ansible_user=root
+ubuntu
+
+[test_hosts:vars]
+ansible_python_interpreter=/usr/bin/python3
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

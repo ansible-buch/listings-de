@@ -1,0 +1,19 @@
+global
+    daemon
+    maxconn 256
+    stats socket /run/haproxy/admin.sock mode 660 level admin
+
+defaults
+    mode http
+    timeout connect 10s
+    timeout client 1m
+    timeout server 1m
+
+frontend http
+    bind :80
+    default_backend workers
+
+backend workers
+    {% for h in groups['all'] if not h == 'lb' -%} 
+    server {{h}} {{h}}:80
+    {% endfor %}

@@ -1,0 +1,25 @@
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    zahlen: [11, 22, 33]
+    tiere: {Hund: Wuff, Katze: Miau, Maus: Fiep}
+
+  tasks:
+    - set_fact:
+        mehr_zahlen: [44, 55]
+        mehr_tiere: {Esel: Iaaaa, Hund: Knurr}
+
+    - name: Liste erweitern
+      set_fact:
+        zahlen: "{{zahlen + mehr_zahlen}}"
+
+    - name: Map erweitern
+      set_fact:
+        tiere: "{{tiere | combine(mehr_tiere)}}"
+
+    - name: Liste ausgeben
+      debug: var=zahlen
+
+    - name: Map ausgeben
+      debug: var=tiere

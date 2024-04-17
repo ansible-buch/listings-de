@@ -1,0 +1,7 @@
+---
+- hosts: debian
+
+  tasks:
+    - name: Schleife über normale Dateien 
+      debug: msg="Datei {{ item }} gefunden"
+      with_fileglob: /etc/*.conf

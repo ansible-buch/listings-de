@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  
+  tasks:
+    - name: "Sag mal: Wie geht das mit dem Doppelpunkt?"
+      debug:
+        msg: "So geht es auch: Hurra!"

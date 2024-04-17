@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  vars:
+    tiere:
+      - Hund
+      - Katze
+      - Maus
+
+  tasks:
+    - name: Schleife über Liste
+      debug: msg="Hallo {{ t }}!"
+      with_items: "{{tiere}}"
+      loop_control:
+        loop_var: t

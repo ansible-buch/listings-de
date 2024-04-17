@@ -1,0 +1,54 @@
+---
+- hosts: [debian, ubuntu]
+
+  tasks:
+    - name: Paketlisten aktualisieren
+      apt: 
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Apache-Paket installieren
+      apt:
+        name: apache2
+
+    - name: Dienst starten und in Bootprozess integrieren
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Minimale Startseite einrichten
+      copy:
+        dest: /var/www/html/index.html
+        mode: 0644
+        content: |
+          <!doctype html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Test</title>
+            </head>
+            <body>
+              <h1>Willkommen auf unserer Homepage!</h1>
+            </body>
+          </html>
+
+    - name: Plugin-Config hochladen
+      copy:
+        dest: /etc/apache2/conf-available/redirect.conf
+        content: |
+          Redirect /go http://www.google.de
+      notify: reload apache
+ 
+    - name: Config aktivieren
+      command:
+        cmd: a2enconf redirect
+        creates: /etc/apache2/conf-enabled/redirect.conf
+
+
+  handlers:
+
+    - name: reload apache
+      service:
+        name: apache2
+        state: reloaded

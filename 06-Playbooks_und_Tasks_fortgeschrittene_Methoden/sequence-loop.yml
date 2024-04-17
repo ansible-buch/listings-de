@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Schleife über eine Folge
+      debug: msg="{{item}}"
+      with_sequence: start=6 end=12 stride=2 format=test%02d.txt

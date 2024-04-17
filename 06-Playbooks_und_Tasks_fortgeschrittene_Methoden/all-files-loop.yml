@@ -1,0 +1,12 @@
+---
+- hosts: server1.example.org
+  
+  tasks:
+    - name: Alle Dateien in /usr finden
+      shell: ls -d /usr/*
+      register: ls_cmd
+      changed_when: ls_cmd.rc != 0
+
+    - name: Schleife über alle Dateien
+      debug: msg="Datei {{ item | basename }} gefunden"
+      with_items: "{{ ls_cmd.stdout_lines }}"

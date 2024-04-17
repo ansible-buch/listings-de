@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+
+  vars:
+    tiere:
+      - name: Fiffi
+        typ: Hund
+        alter: 7
+      - name: Waldi
+        typ: Hund
+        alter: 9
+      - name: Maumau
+        typ: Katze
+        alter: 5
+
+    suchtier: Waldi
+
+  tasks:
+    - set_fact: 
+        trefferliste: >
+          {{ tiere | selectattr("name", "equalto", suchtier) | list }}
+    - set_fact:
+        tier: "{{trefferliste|first}}"
+      when: trefferliste
+
+    - debug:
+        msg: "{{tier.typ}} {{tier.name}} ist {{tier.alter}} Jahre alt."
+      when: tier is defined
+
+    - debug:
+        msg: "Das gesuchte Tier konnte nicht gefunden werden."
+      when: tier is not defined

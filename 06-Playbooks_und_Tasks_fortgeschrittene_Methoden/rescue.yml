@@ -1,0 +1,22 @@
+- hosts: debian
+
+  tasks:
+    - block:
+      - name: Verzeichnis anlegen
+        file:
+          path: /tmp/download
+          state: directory
+
+      - name: Dateien von benachbartem Server herunterladen
+        get_url:
+          url: http://192.168.150.20/{{item}}
+          dest: /tmp/download/{{item}}
+        with_items: [index.html, test1.txt]
+
+      rescue:
+      - debug: msg="Beim Herunterladen ging was schief"
+
+      - name: Aufräumen
+        file:
+          path: /tmp/download
+          state: absent

@@ -1,0 +1,14 @@
+---
+- hosts: all:!srv10
+  tasks: []
+
+- hosts: srv10
+  tasks:
+    - name: Die Namen und IPs aller anderen Hosts auf srv10 eintragen
+      copy:
+        dest: /tmp/serverlist.txt
+        content: |
+          {% for h in groups['all'] if not h == 'srv10' %}
+          {{ hostvars[h]['ansible_hostname'] ~ ' ' -}}
+          ({{ hostvars[h]['ansible_default_ipv4']['address'] }})
+          {% endfor %}

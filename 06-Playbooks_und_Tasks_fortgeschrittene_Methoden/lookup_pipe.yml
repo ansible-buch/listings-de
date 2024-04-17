@@ -1,0 +1,10 @@
+---
+- hosts: debian
+
+  vars:
+    datetime: "{{ lookup('pipe', 'date') }}"
+
+  tasks:
+    - debug: var=datetime
+    - pause: seconds=2
+    - debug: var=datetime

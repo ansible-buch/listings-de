@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: File lookup
+      debug:
+        msg: "{{ lookup('file', '/etc/os-release') }}"
+
+    - name: Environment lookup
+      debug:
+        msg: "{{ lookup('env', 'HOME') }}"
+
+    - name: CSV lookup
+      debug:
+        msg: "{{ lookup('csvfile',
+                        'root file=/etc/passwd delimiter=: col=6') }}"
+
+    - name: DNS lookup
+      debug:
+        msg: "{{ lookup('dig', 'www.example.com') }}"

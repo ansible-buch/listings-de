@@ -1,0 +1,32 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Parameter für Debian-Systeme
+      set_fact:
+        apache_package_name: apache2
+        apache_service_name: apache2
+      when: ansible_os_family == "Debian"
+
+    - name: Parameter für CentOS-Systeme
+      set_fact:
+        apache_package_name: httpd
+        apache_service_name: httpd
+      when: ansible_os_family == "RedHat"
+
+    - name: Parameter für SUSE-Systeme
+      set_fact:
+        apache_package_name: apache2
+        apache_service_name: apache2
+      when: ansible_os_family == "Suse"
+
+
+    - name: Apache installieren
+      package:
+        name: "{{apache_package_name}}"
+
+    - name: Dienst starten und in Bootprozess integrieren
+      service:
+        name: "{{apache_service_name}}"
+        state: started
+        enabled: yes

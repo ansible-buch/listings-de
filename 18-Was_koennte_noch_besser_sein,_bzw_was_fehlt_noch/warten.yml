@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Dieser Task benötigt 10 Sekunden Zeit
+      shell: |
+        for i in $(seq 10); do 
+            date | tee -a /tmp/warten.log
+            sleep 1
+        done
+      changed_when: false
+      register: for_cmd
+
+    - debug: var=for_cmd.stdout_lines

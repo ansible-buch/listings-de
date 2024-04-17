@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Würfeln
+      shell: "echo $(( $RANDOM % 6 + 1))"
+      register: wurf
+      args:
+        executable: /bin/bash
+      until: "'6' in wurf.stdout"
+      retries: 10
+      delay: 1
+
+    - debug: msg="Eine 6 wurde gewürfelt!"

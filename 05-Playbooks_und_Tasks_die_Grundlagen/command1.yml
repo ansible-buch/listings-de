@@ -1,0 +1,7 @@
+---
+- hosts: debian
+  gather_facts: no
+
+  tasks:
+    - name: Platzbedarf der Root-Partition ermitteln
+      command: df -h /

@@ -1,0 +1,10 @@
+---
+- hosts: ~srv0[1-9]
+  tasks:
+    - name: Die Namen und IPs aller anderen Hosts auf srv10 eintragen
+      lineinfile:
+        path: /tmp/serverlist.txt
+        create: yes
+        line: "{{ansible_hostname}} ({{ansible_default_ipv4.address}})"
+        regexp: "^{{ansible_hostname}}.*"
+      delegate_to: srv10

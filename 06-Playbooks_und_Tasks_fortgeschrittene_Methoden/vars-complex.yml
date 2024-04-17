@@ -1,0 +1,22 @@
+---
+- hosts: all
+  gather_facts: no
+
+  vars:
+    motd:
+      gruss: Hallo lieber Besucher!
+      spruch:
+        - Früher Vogel fängt den Wurm.
+        - Was Hänschen nicht lernt, lernt Hans nimmermehr.
+      lotto: [2, 8, 17, 33, 34, 42]
+
+  tasks:
+    - name: /etc/motd hochladen
+      copy:
+        dest: /etc/motd
+        content: |
+          {{ motd.gruss }}
+
+          Spruch des Tages: {{ motd.spruch[0] }}
+
+          Lottozahlen vom Wochenende: {{ motd.lotto | join(', ') }}

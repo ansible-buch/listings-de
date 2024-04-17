@@ -1,0 +1,8 @@
+---
+- hosts: all
+
+  tasks:
+    - debug: msg="Ein ziemlich neues Ubuntu"
+      when: ansible_distribution == "Ubuntu"
+              and
+            ansible_distribution_version is version('19.10', '>=')

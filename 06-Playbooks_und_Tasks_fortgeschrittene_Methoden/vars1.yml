@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars:
+    farbe: blau
+    zahl:  42
+  
+  tasks:
+    - debug: 
+        msg: "Farbe: {{farbe}}, Zahl: {{zahl}}"

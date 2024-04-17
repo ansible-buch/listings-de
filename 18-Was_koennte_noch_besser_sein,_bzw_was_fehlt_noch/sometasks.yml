@@ -1,0 +1,3 @@
+---        
+- debug: msg="Hallo {{item}}"
+- debug: msg="Noch mal hallo {{item}}"

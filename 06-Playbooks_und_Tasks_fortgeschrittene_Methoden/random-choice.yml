@@ -1,0 +1,13 @@
+---
+- hosts: server1.example.org
+
+  vars:
+    sprueche:
+      - Früher Vogel fängt den Wurm.
+      - Was Hänschen nicht lernt, lernt Hans nimmermehr.
+      - Die zweite Maus kriegt den Käse.
+
+  tasks:
+    - name: Zufallsspruch
+      debug: msg={{item}}
+      with_random_choice: "{{sprueche}}"

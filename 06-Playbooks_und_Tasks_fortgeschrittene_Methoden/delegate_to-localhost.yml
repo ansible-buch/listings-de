@@ -1,0 +1,15 @@
+- hosts: [debian, centos, ubuntu]
+
+  tasks:
+    - name: Pinguin-Bild herunterladen
+      delegate_to: localhost
+      get_url:
+        url: https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png
+        dest: /tmp/tux.png
+      run_once: true
+
+    - name: Auf Zielhosts verteilen
+      copy:
+        src: /tmp/tux.png
+        dest: /var/www/html
+        mode: 0644

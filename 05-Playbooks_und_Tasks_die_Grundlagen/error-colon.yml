@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+  
+  tasks:
+    - name: Sag mal: Wie geht das mit dem Doppelpunkt?
+      debug: msg="So jedenfalls nicht..."

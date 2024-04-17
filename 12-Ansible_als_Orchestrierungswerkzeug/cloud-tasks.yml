@@ -1,0 +1,7 @@
+---
+- hosts: all
+  
+  tasks:
+    - wait_for: timeout=2
+
+    - debug: msg="{{inventory_hostname}} ist fertig."

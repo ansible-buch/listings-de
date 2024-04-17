@@ -1,0 +1,59 @@
+---
+- hosts: all
+
+  tasks:
+    - name: System-spezifische Parameter laden
+      include_vars: apache_{{ansible_os_family}}.yml
+
+    - name: Paketlisten auf Debian-Systemen aktualisieren
+      apt: 
+        update_cache: yes
+        cache_valid_time: 3600
+      when: ansible_os_family == "Debian"
+
+    - name: Apache-Paket installieren
+      package:
+        name: "{{apache_package_name}}"
+
+    - name: Dienst starten und in Bootprozess integrieren
+      service:
+        name: "{{apache_service_name}}"
+        state: started
+        enabled: yes
+
+    - name: Minimale Startseite einrichten
+      copy:
+        dest: "{{apache_document_root}}/index.html"
+        mode: 0644
+        content: |
+          <!doctype html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Test</title>
+            </head>
+            <body>
+              <h1>Willkommen auf unserer Homepage!</h1>
+            </body>
+          </html>
+
+    - name: Plugin-Config hochladen
+      copy:
+        dest: "{{apache_config_directory}}/redirect.conf"
+        content: |
+          Redirect /go http://www.google.de
+      notify: reload apache
+ 
+    - name: Config aktivieren (nur auf Debian-System nötig)
+      command:
+        cmd: a2enconf redirect
+        creates: /etc/apache2/conf-enabled/redirect.conf
+      when: ansible_os_family == "Debian"
+
+
+  handlers:
+
+    - name: reload apache
+      service:
+        name: "{{apache_service_name}}"
+        state: reloaded

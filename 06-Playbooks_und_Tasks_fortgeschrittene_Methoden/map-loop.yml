@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars:
+    tiere:
+      Hund:  Wuff
+      Katze: Miau
+      Maus:  Fiep
+
+  tasks:
+    - name: Schleife über Map
+      debug: msg="{{ item.key }} macht {{ item.value }}."
+      with_dict: "{{tiere}}"

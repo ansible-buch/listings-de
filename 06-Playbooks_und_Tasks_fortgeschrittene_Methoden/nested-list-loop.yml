@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  vars:
+    tiere:
+      - [Hund, Katze, Maus]
+      - [Ameise, Esel]
+
+  tasks:
+    - name: Schleife über verschachtelte Liste
+      debug: msg="Hallo {{ item }}!"
+      with_items: "{{tiere}}"

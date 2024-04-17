@@ -1,0 +1,20 @@
+---
+- name: Gruppieren nach Systemfamilien
+  hosts: all
+  
+  tasks:
+    - group_by: key=os_{{ ansible_os_family }}
+
+
+- name: Alle aus der Debian-Familie abarbeiten
+  hosts: os_Debian
+
+  tasks:
+    - debug: msg="Hallo {{ inventory_hostname }}"
+
+
+- name: Und nun der Rest
+  hosts: all:!os_Debian
+
+  tasks:
+    - debug: msg="Hallo {{ inventory_hostname }}"

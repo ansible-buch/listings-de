@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      - MYSQL_ROOT_PASSWORD=geheim
+    volumes:
+      - data:/var/lib/mysql
+    restart: unless-stopped
+
+  pma:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_HOST=mariadb
+    ports:
+      - 8080:80
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+
+volumes:
+  data:

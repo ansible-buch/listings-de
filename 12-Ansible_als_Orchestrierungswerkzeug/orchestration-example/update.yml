@@ -1,0 +1,31 @@
+---
+- hosts: worker-*
+  serial: 1
+
+  tasks:
+    - name: Server aus dem Loadbalancing herausnehmen
+      haproxy:
+        state: disabled
+        host: "{{inventory_hostname}}"
+        socket: /run/haproxy/admin.sock
+        backend: workers
+      delegate_to: lb
+
+    - name: Applikation installieren
+      copy:
+        src: src/app.pl
+        dest: /usr/local/bin/app.pl
+        mode: 0755
+
+    - name: App neu starten
+      service:
+        name: app
+        state: restarted
+
+    - name: Server wieder ins Loadbalancing aufnehmen
+      haproxy:
+        state: enabled
+        host: "{{inventory_hostname}}"
+        socket: /run/haproxy/admin.sock
+        backend: workers
+      delegate_to: lb

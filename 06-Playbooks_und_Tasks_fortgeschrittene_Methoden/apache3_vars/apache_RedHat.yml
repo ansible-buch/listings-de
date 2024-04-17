@@ -1,0 +1,5 @@
+---
+apache_package_name: httpd
+apache_service_name: httpd
+apache_document_root: /var/www/html
+apache_config_directory: /etc/httpd/conf.d

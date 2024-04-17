@@ -1,0 +1,41 @@
+---
+- hosts: 
+    - suse
+
+  tasks:
+    - name: Alle Pakete aktualisieren
+      zypper: 
+        name: '*'
+        state: latest
+
+    - name: Feststellen, ob Prozesse einen Neustart brauchen
+      command: 
+        cmd: zypper ps
+        warn: false
+      changed_when: false
+      register: zypper_ps_cmd
+
+    - name: Feststellen, ob ein neuer Kernel installiert wurde
+      stat: 
+        path: /boot/do_purge_kernels
+      register: new_kernel
+
+    - name: Sicherheitshalber per Default den Reboot vorsehen 
+      set_fact:
+        reboot_required: true
+
+    - set_fact:
+        reboot_required: false
+      when: >
+        "No processes using deleted files found." 
+          in zypper_ps_cmd.stdout_lines
+        and
+        "Reboot is probably not necessary."
+          in zypper_ps_cmd.stdout_lines
+        and
+        not new_kernel.stat.exists
+
+    - name: Reboot
+      reboot:
+      # (Das reboot-Modul bietet auch viele Parameter!)
+      when: reboot_required

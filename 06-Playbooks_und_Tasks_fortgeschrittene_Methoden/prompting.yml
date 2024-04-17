@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  vars_prompt:
+    - name: var1
+      prompt: Bitte einen Wert fuer var1 eingeben
+      default: 42
+      private: false
+  
+    - name: var2
+      prompt: Und noch einen fuer var2 (darf niemand sehen)
+      private: true
+
+  tasks:
+    - debug: 
+        msg: "var1 ist {{var1}}, var2 ist {{var2}}"

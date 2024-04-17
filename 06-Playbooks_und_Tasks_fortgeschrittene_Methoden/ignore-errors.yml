@@ -1,0 +1,8 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Dieser Task würde normalerweise fehlschlagen...
+      command: /bin/false
+      changed_when: false
+      ignore_errors: true    # ...deswegen aber nicht!

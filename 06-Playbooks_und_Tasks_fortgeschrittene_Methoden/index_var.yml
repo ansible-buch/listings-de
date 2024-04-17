@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  vars:
+    tiere:
+      - Hund
+      - Katze
+      - Maus
+
+  tasks:
+    - name: Schleife über Liste
+      debug: msg="Tier Nr. {{nr + 1}} ist {{ item }}!"
+      with_items: "{{tiere}}"
+      loop_control:
+        index_var: nr

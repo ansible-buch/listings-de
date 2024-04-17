@@ -1,0 +1,14 @@
+[user]
+        name = First User
+        email = user1@example.org
+[color]
+        ui = auto
+[core]
+        editor = vim
+        pager = less -R
+[push]
+        default = matching
+[credential]
+        helper = cache --timeout=3600
+[http]
+        sslVerify = false
