@@ -1,9 +1,0 @@
----
-- hosts: localhost
-
-  tasks:
-    - debug: msg="Mich sieht man immer"
-
-    - debug: 
-        msg: "Mich sieht man nur, wenn mydebug gesetzt ist"
-      when: mydebug is defined

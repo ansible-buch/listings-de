@@ -1,9 +1,0 @@
-[windows]
-win10.example.org
-
-[windows:vars]
-ansible_user=Administrator@EXAMPLE.ORG
-ansible_password=Passw0rd
-ansible_connection=winrm
-ansible_winrm_transport=kerberos
-ansible_winrm_server_cert_validation=ignore

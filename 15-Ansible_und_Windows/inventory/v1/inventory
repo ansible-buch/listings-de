@@ -1,9 +1,0 @@
-[windows]
-win10.example.org  ansible_host=192.168.150.60
-
-[windows:vars]
-ansible_user=Administrator
-ansible_password=Passw0rd
-ansible_connection=winrm
-ansible_winrm_transport=basic
-ansible_winrm_server_cert_validation=ignore

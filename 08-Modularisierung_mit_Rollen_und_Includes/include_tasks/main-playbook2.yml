@@ -1,8 +1,0 @@
----
-- hosts: localhost
-  gather_facts: false
-  
-  tasks:
-    - block:
-        - include_tasks: some_tasks.yml
-      tags: tasks

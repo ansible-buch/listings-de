@@ -1,8 +1,0 @@
-- hosts: debian
-
-  tasks:
-    - name: sshd_config ändern
-      lineinfile:
-        path: /etc/ssh/sshd_config
-        line:   'PermitRootLogin yes'
-        regexp: '^#?\s*PermitRootLogin'

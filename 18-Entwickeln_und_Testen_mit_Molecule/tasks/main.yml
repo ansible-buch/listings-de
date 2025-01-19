@@ -1,3 +1,0 @@
----
-- name: Load platform-specific tasks
-  include_tasks: "{{ ansible_distribution | lower }}.yml"

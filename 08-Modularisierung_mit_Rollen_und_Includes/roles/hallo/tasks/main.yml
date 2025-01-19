@@ -1,3 +1,0 @@
----
-- name: Hallo sagen
-  debug: msg="Hallo aus einer Rolle!"
