@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+
+  tasks:
+    - get_url:
+        url: https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png
+        dest: /tmp/tux.png
+
+
+- hosts: all:!suse
+
+  tasks:
+    - copy:
+        src: /tmp/tux.png
+        dest: /var/www/html
+        mode: 0644

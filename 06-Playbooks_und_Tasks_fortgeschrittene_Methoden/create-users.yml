@@ -1,0 +1,21 @@
+---
+- hosts: debian
+
+  vars:
+    users:
+      - name: john
+        home: /home/john
+        pass: secret
+      - name: mary
+        shell: /bin/sh
+        pass: supersecret
+
+  tasks:
+    - name: Create user
+      user:
+        name:     '{{item.name}}'
+        shell:    '{{item.shell | default("/bin/bash")}}'
+        home:     '{{item.home  | default(omit)}}'
+        password: '{{item.pass  | password_hash("sha512") }}'
+        update_password: on_create
+      with_items: '{{users}}'

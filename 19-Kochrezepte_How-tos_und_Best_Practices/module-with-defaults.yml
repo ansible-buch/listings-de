@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+
+  module_defaults:
+    file:
+      owner: root
+      group: root
+      mode: 0755
+
+  tasks:
+    - name: Create file1
+      file:
+        path: /tmp/file1
+        state: touch
+
+    - name: Create file2
+      file:
+        path: /tmp/file2
+        state: touch
+        mode: 0644

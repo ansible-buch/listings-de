@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Say hello
+      debug: msg="Hello Ansible!"
+      tags: hello
+
+    - name: Another message
+      debug: msg="Everything is fine so far"
+      tags: [test, message]
+
+    - name: That's it
+      debug: msg="Finished"
+      tags: always

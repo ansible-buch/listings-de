@@ -1,0 +1,16 @@
+---
+all:
+  children:
+    test_hosts:
+      hosts:
+        debian:
+          ansible_host: 192.168.150.10
+        rocky:
+          ansible_host: 192.168.150.20
+        suse:
+          ansible_host: 192.168.150.30
+        ubuntu:
+          ansible_host: 192.168.150.40
+      vars:
+        ansible_become: 'yes'
+        ansible_user: vagrant

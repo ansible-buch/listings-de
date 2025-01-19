@@ -1,0 +1,5 @@
+---
+- hosts: debian
+
+  tasks:
+    - debug: var=ansible_env.ANIMAL

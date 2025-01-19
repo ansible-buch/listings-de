@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars:
+    map:
+      Dog: woof
+      Cat: meeow
+      Mouse: squeak
+
+  tasks:
+    - name: Map loop
+      debug: msg="{{ item.key }} says {{ item.value }}."
+      with_dict: "{{map}}"

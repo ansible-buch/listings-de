@@ -1,0 +1,16 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - debug:
+        msg: |-
+          {# Just a comment #}
+
+          Hello
+          {% if True %}
+              Jinja
+          {% else %}
+              This will never appear
+          {% endif %}
+          !

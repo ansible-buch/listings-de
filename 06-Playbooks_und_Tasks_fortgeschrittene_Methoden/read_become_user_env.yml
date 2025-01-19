@@ -1,0 +1,9 @@
+---
+- hosts: debian
+
+  tasks:
+    - command: bash -lc 'echo $ANIMAL'
+      changed_when: false
+      register: bash_cmd
+
+    - debug: var=bash_cmd.stdout

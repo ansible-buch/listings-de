@@ -1,0 +1,24 @@
+#!/usr/bin/env -S ansible-playbook -i localhost,
+---
+- hosts: localhost
+  connection: local
+  force_handlers: true
+
+  vars:
+    ansible_python_interpreter: auto_silent
+
+  pre_tasks:
+    - set_fact:
+        eff_uid_number: "{{ lookup('pipe', 'id -u') }}"
+
+    - block:
+      - debug: msg="Root privileges are required to run this command."
+      - meta: end_play
+      when: eff_uid_number|int != 0
+
+  tasks:
+    ### [Here we go. Do what needs to be done.] ###
+
+    - name: Demo task (requires root privileges)
+      command: test -r /etc/shadow
+      changed_when: false

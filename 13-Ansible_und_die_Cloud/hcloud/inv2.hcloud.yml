@@ -1,0 +1,3 @@
+---
+plugin: hetzner.hcloud.hcloud
+api_token: "{{ lookup('passwordstore', 'ansible/hcloud/api_token') }}"

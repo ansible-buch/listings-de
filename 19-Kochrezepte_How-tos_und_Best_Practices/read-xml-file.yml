@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  tasks:
+    # Requires:
+    # - Python-module xmltodict
+    # - collection ansible.utils >= 2.0.2
+
+    - set_fact:
+        config: "{{ lookup('file', 'config.xml') | ansible.utils.from_xml }}"
+
+    - debug:
+        msg: "Title: {{config.workshop.title}}"

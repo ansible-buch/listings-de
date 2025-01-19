@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  vars:
+    list:
+      - Dog
+      - Cat
+      - Mouse
+
+  tasks:
+    - debug:
+        msg: >-
+          {{ list | map('regex_replace', '^(.*)$', '>>>\1<<<') | join('|') }}

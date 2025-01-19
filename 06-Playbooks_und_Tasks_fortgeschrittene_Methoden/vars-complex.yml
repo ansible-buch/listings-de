@@ -1,0 +1,23 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    data:
+      beginning: Hello!
+      end: Best regards
+      lines:
+        - How are you doing?
+        - The weather is very nice.
+
+  tasks:
+    - name: Upload /tmp/message.txt
+      copy:
+        dest: /tmp/message.txt
+        content: |
+          {{ data.beginning }}
+
+          {{data.lines[0]}}
+          {{data.lines[1]}}
+
+          {{ data.end }}

@@ -1,0 +1,8 @@
+---
+- hosts: all
+
+  vars:
+    iface_name: eth1
+
+  tasks:
+    - debug: var=ansible_facts[iface_name]['ipv4']['address']

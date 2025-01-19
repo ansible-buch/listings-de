@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Roll the dice
+      shell: "echo $(( $RANDOM % 6 + 1))"
+      register: result
+      args:
+        executable: /bin/bash
+      until: "'6' in result.stdout"
+      retries: 10
+      delay: 1
+
+    - debug: msg="A six was rolled!"

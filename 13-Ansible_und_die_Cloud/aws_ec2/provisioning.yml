@@ -1,0 +1,38 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Create security group
+      amazon.aws.ec2_group:
+        name: sg1
+        description: Grant SSH access
+        rules:
+          - proto: tcp
+            ports: [22]
+            cidr_ip: 0.0.0.0/0
+            rule_desc: SSH erlauben
+          - proto: icmp
+            ports: [-1]
+            cidr_ip: 0.0.0.0/0
+            rule_desc: ICMP erlauben
+
+    - name: Upload SSH-key
+      amazon.aws.ec2_key:
+          name: sshkey_aws_ec2
+          key_material: "{{ lookup('file', '~/.ssh/aws_ec2.pub') }}"
+
+    - name: Create Ubuntu 24.04 instance
+      amazon.aws.ec2_instance:
+        name: srv01
+        key_name: sshkey_aws_ec2
+        instance_type: t2.nano
+        security_group: sg1
+        state: running
+        network_interfaces:
+          - assign_public_ip: true
+        # See https://cloud-images.ubuntu.com/locator/ec2/
+        image_id: ami-0731f252d4fff06e8
+        tags:
+          os: ubuntu
+          type: test
+          purpose: learning

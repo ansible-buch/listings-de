@@ -1,0 +1,31 @@
+---
+- hosts: localhost
+
+  vars:
+    animals:
+      - name: Lassie
+        type: Dog
+        age:  7
+      - name: Fido
+        type: Dog
+        age:  5
+      - name: Kitty
+        type: Cat
+        age:  9
+
+
+  tasks:
+    - set_fact:
+        matches: >
+          {{ animals | selectattr("name", "equalto", query_name) | list }}
+    - set_fact:
+        animal: "{{ matches | first }}"
+      when: matches
+
+    - debug:
+        msg: "{{animal.type}} {{animal.name}} is {{animal.age}} years old."
+      when: animal is defined
+
+    - debug:
+        msg: "The animal could not be found."
+      when: animal is not defined

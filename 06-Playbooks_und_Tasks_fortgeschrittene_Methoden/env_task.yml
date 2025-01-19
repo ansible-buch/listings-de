@@ -1,0 +1,11 @@
+---
+- hosts: debian
+
+  tasks:
+    - shell: echo $ANIMAL
+      changed_when: false
+      register: echo_cmd
+      environment:
+        ANIMAL: Dog
+
+    - debug: var=echo_cmd.stdout

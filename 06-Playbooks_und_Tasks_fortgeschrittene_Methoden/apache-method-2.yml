@@ -1,0 +1,23 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Debian/Ubuntu parameters
+      set_fact:
+        apache_package_name: apache2
+      when: ansible_os_family == "Debian"
+
+    - name: Rocky parameters
+      set_fact:
+        apache_package_name: httpd
+      when: ansible_distribution == "Rocky"
+
+    - name: SUSE parameters
+      set_fact:
+        apache_package_name: apache2
+      when: ansible_distribution == "openSUSE Leap"
+
+
+    - name: Install Apache package
+      package:
+        name: "{{apache_package_name}}"

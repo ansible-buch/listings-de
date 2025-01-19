@@ -1,0 +1,8 @@
+---
+- debug:
+    msg: First task
+  tags: task1
+
+- debug:
+    msg: Second task
+  tags: task2

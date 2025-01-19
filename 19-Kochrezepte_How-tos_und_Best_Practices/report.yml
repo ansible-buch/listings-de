@@ -1,0 +1,21 @@
+---
+- hosts: all
+
+  tasks:
+    - shell: df -h /
+      register: df_cmd
+      changed_when: false
+
+
+- hosts: localhost
+
+  tasks:
+    - name: Write report
+      copy:
+        dest: /tmp/report.txt
+        content: |
+          {% for host in groups['all'] %}
+          Result for '{{host}}':
+          {{ hostvars[host]['df_cmd']['stdout'] }}
+
+          {% endfor %}

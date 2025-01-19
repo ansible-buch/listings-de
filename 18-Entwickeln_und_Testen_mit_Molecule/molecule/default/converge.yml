@@ -1,0 +1,8 @@
+---
+- name: Converge
+  hosts: all
+
+  tasks:
+    - name: Include postgresql role
+      include_role:
+        name: "local.database.postgresql"

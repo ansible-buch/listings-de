@@ -1,0 +1,22 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Upload SSH-key
+      hetzner.hcloud.ssh_key:
+        name: sshkey_hetzner
+        public_key: "{{ lookup('file', '~/.ssh/hetzner.pub') }}"
+        state: present
+
+    - name: Create Debian 12 server
+      hetzner.hcloud.server:
+        name: srv01
+        server_type: cx22
+        location: nbg1
+        image: debian-12
+        ssh_keys:
+          - sshkey_hetzner
+        labels:
+          type: test
+          purpose: learning
+        state: present

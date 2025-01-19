@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  vars:
+    list:
+      - Dog
+      - Cat
+      - Mouse
+
+  tasks:
+    - name: List loop
+      debug: msg="Hello {{item}}!"
+      with_items: "{{list}}"

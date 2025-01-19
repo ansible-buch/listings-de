@@ -1,0 +1,7 @@
+---
+- hosts: debian
+
+  tasks:
+    - name: Loop over files
+      debug: msg="Found file {{item}}"
+      with_fileglob: /etc/*.conf

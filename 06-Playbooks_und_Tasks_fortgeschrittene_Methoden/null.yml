@@ -1,0 +1,65 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  vars:
+    # var1 has no value:
+    var1: NULL
+
+    # var2 is not even there.
+
+
+  tasks:
+    # 'debug: var=' never has a problem:
+    - name: debug var var1
+      debug: var=var1
+
+    - name: debug var var2
+      debug: var=var2
+
+
+    # Direct Jinja-access is only possible to known variables:
+    - name: debug msg var1
+      debug: msg={{ var1 }}
+
+    - name: debug msg var2
+      debug: msg={{ var2 }}
+      ignore_errors: true
+
+
+    # Ansible when-checks:
+    - name: when check (1)
+      debug: msg="var1 is defined, but has no value"
+      when: var1 is defined and var1 == None
+
+    - name: when check (2)
+      debug: msg="var2 is not defined"
+      when: var2 is undefined
+
+    - name: when check (3)
+      debug: msg="Comparing undefined variables with None is not allowed"
+      when: var2 == None
+      ignore_errors: true
+
+
+    # Same with Jinja conditionals:
+    - name: Jinja if check (1)
+      debug:
+        msg: |-
+          {% if var1 is defined and var1 == None %}
+          Jinja: var1 is defined, but has no value
+          {%- endif %}
+    - name: Jinja if check (2)
+      debug:
+        msg: |-
+          {% if var2 is undefined %}
+          Jinja: var2 is not defined
+          {%- endif %}
+
+
+    # Assign value to var2:
+    - set_fact:
+        var2: 'Hello'
+
+    - debug: msg="var2 is now defined and has a value"
+      when: var2 is defined and var2 != None

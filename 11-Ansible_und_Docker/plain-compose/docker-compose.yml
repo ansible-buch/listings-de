@@ -1,0 +1,22 @@
+---
+services:
+  mariadb:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=secret
+    volumes:
+      - data:/var/lib/mysql
+    restart: unless-stopped
+
+  adminer:
+    image: adminer
+    environment:
+      - ADMINER_DEFAULT_SERVER=mariadb
+    ports:
+      - 8080:8080
+    restart: unless-stopped
+    depends_on:
+      - mariadb
+
+volumes:
+  data:

@@ -1,0 +1,17 @@
+---
+- hosts: ubuntu
+
+  tasks:
+    - name: Run the hello-world container
+      docker_container:
+        name: hello-world
+        image: library/hello-world
+        detach: false
+      register: run
+
+    - debug: msg={{ run.container.Output[:39] + '[...]' }}
+
+    - name: Remove container
+      docker_container:
+        name: hello-world
+        state: absent

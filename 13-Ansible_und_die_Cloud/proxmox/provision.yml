@@ -1,0 +1,86 @@
+---
+- hosts: "{{template}}"
+  gather_facts: false
+
+  vars_prompt:
+    - name: template
+      prompt: Enter template (debian|rocky|suse|ubuntu)
+      private: false
+    - name: newid
+      prompt: Enter new PVE ID
+      private: false
+    - name: newname
+      prompt: Enter new PVE inventory name
+      private: false
+    - name: memory
+      prompt: Enter memory in MB
+      default: 2048
+      private: false
+    - name: hostname
+      prompt: Enter Linux hostname
+      private: false
+    - name: octet
+      prompt: Enter last octet of 192.168.1.xxx
+      private: false
+    - name: pool
+      prompt: Enter pool
+      private: false
+      default: Testing
+
+  module_defaults:
+    community.general.proxmox_kvm:
+        node:     pve
+        api_host: proxmox.example.org
+        api_user: ansible@pam
+        api_token_id: ansible
+        api_token_secret: >-
+          {{ lookup('passwordstore', 'ansible/proxmox/api_token') }}
+
+  tasks:
+    - name: Clone {{template}} template
+      delegate_to: localhost
+      community.general.proxmox_kvm:
+        clone: clone # If vmid is set, clone can take an arbitrary value
+                     # but is required for initiating the clone.
+        vmid:  "{{ hostvars[template]['vmid'] }}"
+        newid: "{{newid}}"
+        name:  "{{newname}}" # Proxmox-name
+        pool:  "{{pool}}"
+        timeout: 600
+        state: present
+      register: clone
+
+    - pause:
+        seconds: 10
+
+    - name: Change some settings
+      delegate_to: localhost
+      community.general.proxmox_kvm:
+        vmid:   "{{newid}}"
+        memory: "{{memory}}"
+        update: true
+
+
+    - name: Start VM
+      delegate_to: localhost
+      community.general.proxmox_kvm:
+        vmid: "{{newid}}"
+        state: started
+
+    - wait_for_connection:
+
+    - name: Set hostname
+      hostname:
+        name: "{{hostname}}"
+
+    - name: Set IPv4 address
+      nmcli:
+        conn_name: "wired-1"
+        ip4: "192.168.1.{{octet}}"
+        state: present
+
+    - name: Reboot and end play
+      shell: "sleep 1 && shutdown -r now"
+      async: 1
+      poll: 0
+      failed_when: false

@@ -1,0 +1,13 @@
+---
+# Caution: This playbook is not correct under all circumstances!
+
+- hosts: dummy10
+  tasks:
+    - name: Add the name of each host to a file
+      copy:
+        dest: /tmp/dummyhosts.txt
+        content: |
+          {% for h in groups['test'] if not h == 'dummy10' %}
+          {{ hostvars[h]['inventory_hostname'] ~ ' has ' ~
+             hostvars[h]['ansible_default_ipv4']['address'] }}
+          {% endfor %}

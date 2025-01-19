@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  tasks:
+    - name: Add hosts
+      add_host:
+        name: "{{item.name}}"
+        groups: temp_group
+        ansible_host: "{{item.ip}}"
+        ansible_user: vagrant
+        ansible_become: yes
+      changed_when: false
+      with_items:
+        - name: srv1
+          ip:   192.168.150.10
+        - name: srv2
+          ip:   192.168.150.20
+
+- hosts: temp_group
+  tasks:
+    - name: Say hello
+      debug: msg="Hello {{inventory_hostname}}"
+
+    - name: Proof that become is working
+      command: test -r /etc/shadow

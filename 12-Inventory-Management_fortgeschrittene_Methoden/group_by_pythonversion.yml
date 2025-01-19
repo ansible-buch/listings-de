@@ -1,0 +1,36 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Install Python rpm module on SUSE
+      zypper:
+        name: python3-rpm
+      when: ansible_os_family == "Suse"
+
+    - name: Retrieve package information
+      package_facts:
+
+    - name: Determine version of installed python3
+      set_fact:
+        python_version: >-
+          {{ ansible_facts.packages['python3'][0]['version'] }}
+
+
+    - group_by:
+        key: |-
+          {% if python_version is version('3.10', '>=') %}
+          {{ "python_new" -}}
+          {% else %}
+          {{ "python_old" -}}
+          {% endif %}
+
+
+- hosts: python_new
+
+  tasks:
+    - debug: msg="Python version {{python_version}}"
+
+- hosts: python_old
+
+  tasks:
+    - debug: msg="Python version {{python_version}}"

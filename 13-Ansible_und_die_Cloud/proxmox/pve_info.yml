@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+
+  vars:
+    api_host: pve.example.org
+    api_user: ansible@pam
+    api_token_id: ansible
+    api_token_secret: >-
+      {{ lookup('passwordstore', 'ansible/proxmox/api_token') }}
+
+  tasks:
+    - community.general.proxmox_node_info:
+        api_host:         "{{api_host}}"
+        api_user:         "{{api_user}}"
+        api_token_id:     "{{api_token_id}}"
+        api_token_secret: "{{api_token_secret}}"
+      register: node_info
+
+    - debug: var=node_info

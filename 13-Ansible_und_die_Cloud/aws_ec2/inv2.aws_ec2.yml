@@ -1,0 +1,8 @@
+---
+plugin: amazon.aws.aws_ec2
+
+aws_access_key: "{{ lookup('passwordstore', 'ansible/aws_ec2/access_key') }}"
+aws_secret_key: "{{ lookup('passwordstore', 'ansible/aws_ec2/secret_key') }}"
+
+regions:
+  - eu-central-1

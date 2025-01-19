@@ -1,0 +1,27 @@
+---
+- hosts: localhost
+
+  vars:
+    # Set default name for the fact containing the result:
+    result_fact: res
+
+  tasks:
+    - include_tasks: tasks/add.yml
+      vars:
+        x: 3
+        y: 4
+
+    - debug:
+        msg: "add()-Result: {{res}}"
+
+    - include_tasks: tasks/join.yml
+      vars:
+        list:
+          - Dog
+          - Cat
+          - Mouse
+        sep: "#"
+        result_fact: joinresult
+
+    - debug:
+        msg: "join()-Result: {{joinresult}}"

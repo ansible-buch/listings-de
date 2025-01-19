@@ -1,0 +1,10 @@
+---
+- hosts: test:!dummy10
+  tasks:
+    - name: Add the name of each host to a file on dummy10
+      lineinfile:
+        path: /tmp/dummyhosts.txt
+        create: yes
+        line: "{{inventory_hostname}} has {{ansible_default_ipv4.address}}"
+        regexp: "^{{inventory_hostname}}.*"
+      delegate_to: dummy10

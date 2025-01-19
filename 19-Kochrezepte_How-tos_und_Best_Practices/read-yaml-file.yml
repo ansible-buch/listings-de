@@ -1,0 +1,17 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Read YAML config; method 1
+      include_vars: "config.yml"
+
+    - debug:
+        msg: "Title: {{workshop.title}}"
+
+
+    - name: Read YAML config; method 2
+      set_fact:
+        config: "{{ lookup('file', 'config.yml') | from_yaml }}"
+
+    - debug:
+        msg: "Title: {{config.workshop.title}}"

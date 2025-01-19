@@ -1,0 +1,25 @@
+---
+- hosts: localhost
+
+  vars:
+    numbers: [11, 22, 33]
+    animals: {Dog: woof, Cat: meeow, Mouse: squeak}
+
+  tasks:
+    - set_fact:
+        more_numbers: [44, 55]
+        more_animals: {Donkey: hee-haw, Dog: growl}
+
+    - name: Extend list
+      set_fact:
+        numbers: "{{ numbers + more_numbers }}"
+
+    - name: Extend map
+      set_fact:
+        animals: "{{ animals | combine(more_animals) }}"
+
+    - name: Print list
+      debug: var=numbers
+
+    - name: Print map
+      debug: var=animals

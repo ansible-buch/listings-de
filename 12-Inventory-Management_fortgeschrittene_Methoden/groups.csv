@@ -1,0 +1,4 @@
+group:members
+test_hosts:debian,rocky,suse,ubuntu
+apt_hosts:debian,ubuntu
+rpm_hosts:rocky,suse

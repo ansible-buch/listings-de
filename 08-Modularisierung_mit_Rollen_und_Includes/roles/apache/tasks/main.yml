@@ -1,0 +1,39 @@
+---
+- name: Load system-specific parameters
+  include_vars: >
+    {{ ansible_distribution | lower | replace(" ", "-") }}.yml
+
+- name: Update package index
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+  when: ansible_os_family == "Debian"
+
+- name: Install Apache package
+  package:
+    name: "{{apache_package_name}}"
+
+- name: Start service and enable start on boot
+  service:
+    name: "{{apache_service_name}}"
+    state: started
+    enabled: yes
+
+- name: Upload minimal homepage
+  template:
+    src: index.html.j2
+    dest: "{{apache_document_root}}/index.html"
+    mode: 0644
+
+- name: Upload config file
+  copy:
+    dest: "{{apache_config_directory}}/redirect.conf"
+    content: |
+      Redirect /go https://www.google.com
+  notify: reload apache
+
+- name: Activate config (only on Debian-like systems)
+  command:
+    cmd: a2enconf redirect
+    creates: /etc/apache2/conf-enabled/redirect.conf
+  when: ansible_os_family == "Debian"

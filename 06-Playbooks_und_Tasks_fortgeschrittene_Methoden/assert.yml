@@ -1,0 +1,13 @@
+---
+- hosts: debian
+  gather_facts: no
+
+  tasks:
+    - assert:
+        that:
+          - hostname is defined and hostname != ''
+        fail_msg: The variable hostname is not defined oder empty
+
+    - name: Set hostname
+      hostname:
+        name: "{{ hostname }}"

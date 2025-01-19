@@ -1,0 +1,5 @@
+---
+apache_package_name: apache2
+apache_service_name: apache2
+apache_document_root: /srv/www/htdocs
+apache_config_directory: /etc/apache2/conf.d

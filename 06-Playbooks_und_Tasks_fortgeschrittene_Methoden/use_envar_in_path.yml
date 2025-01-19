@@ -1,0 +1,16 @@
+---
+- hosts: debian
+
+  tasks:
+    - file:
+        path: /tmp/${ANIMAL}.txt
+        state: touch
+
+    - copy:
+        dest: /tmp/${ANIMAL}.txt
+        content: |
+          Some content...
+
+    - lineinfile:
+        path: /tmp/${ANIMAL}.txt
+        line: More content...

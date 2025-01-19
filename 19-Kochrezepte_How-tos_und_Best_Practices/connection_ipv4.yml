@@ -1,0 +1,21 @@
+---
+- hosts: all
+
+  tasks:
+    - stat:
+        path: /etc/sudoers
+      register: sudoers
+
+    - name: Add env_keep setting to /etc/sudoers
+      lineinfile:
+        path: /etc/sudoers
+        line: "Defaults env_keep += SSH_CONNECTION"
+        insertafter: "^Defaults"
+      when: sudoers.stat.exists
+
+    - name: Reload facts
+      setup:
+
+    - debug:
+        msg: >-
+          {{ ansible_facts['env']['SSH_CONNECTION'].split(' ')[2] }}

@@ -1,0 +1,12 @@
+---
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Define variables
+      set_fact:
+        color: blue
+        number:  42
+
+    - debug:
+        msg: "Color: {{color}}, number: {{number}}"

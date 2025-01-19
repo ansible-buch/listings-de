@@ -1,0 +1,11 @@
+---
+- hosts: debian
+
+  tasks:
+    - name: Let find fail when nothing is found
+      command: find /etc -name foo.conf
+      changed_when: false
+      register: find_cmd
+      failed_when: find_cmd.stdout == '' or find_cmd.rc != 0
+
+    - debug: msg={{ find_cmd.stdout }}

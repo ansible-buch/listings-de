@@ -1,0 +1,15 @@
+- hosts: all:!suse
+
+  tasks:
+    - name: Download penguin image
+      delegate_to: localhost
+      get_url:
+        url: https://upload.wikimedia.org/wikipedia/commons/a/af/Tux.png
+        dest: /tmp/tux.png
+      run_once: true
+
+    - name: Upload to target hosts
+      copy:
+        src: /tmp/tux.png
+        dest: /var/www/html
+        mode: 0644

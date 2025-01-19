@@ -1,0 +1,54 @@
+---
+- hosts: [debian, ubuntu]
+
+  tasks:
+    - name: Update package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install Apache package
+      apt:
+        name: apache2
+
+    - name: Start service and enable start on boot
+      service:
+        name: apache2
+        state: started
+        enabled: yes
+
+    - name: Upload minimal homepage
+      copy:
+        dest: /var/www/html/index.html
+        mode: 0644
+        content: |
+          <!doctype html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Test</title>
+            </head>
+            <body>
+              <h1>Welcome!</h1>
+            </body>
+          </html>
+
+    - name: Upload config file
+      copy:
+        dest: /etc/apache2/conf-available/redirect.conf
+        content: |
+          Redirect /go https://www.google.com
+      notify: reload apache
+
+    - name: Activate config
+      command:
+        cmd: a2enconf redirect
+        creates: /etc/apache2/conf-enabled/redirect.conf
+
+
+  handlers:
+    - name: Reload Apache service
+      service:
+        name: apache2
+        state: reloaded
+      listen: reload apache

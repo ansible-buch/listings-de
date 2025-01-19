@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Environment lookup
+      debug:
+        msg: "{{ lookup('env', 'HOME') }}"
+
+    - name: File lookup
+      debug:
+        msg: "{{ lookup('file', '/etc/os-release') }}"
+
+    - name: Filename globbing
+      debug:
+        msg: "{{ lookup('fileglob', '/etc/*.conf') }}"
+        # For a 'true list' pass wantlist=True to the lookup.
+
+    - name: List /usr/local recursively (may result in many files)
+      debug:
+        msg: "{{ lookup('community.general.filetree', '/usr/local') }}"
+
+    - name: CSV lookup
+      debug:
+        msg: "{{ lookup('csvfile',
+                        'root file=/etc/passwd delimiter=: col=6') }}"
+
+    - name: DNS lookup
+      debug:
+        msg: "{{ lookup('dig', 'www.example.com') }}"

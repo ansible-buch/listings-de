@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Loop over combination of lists
+      debug: msg="{{ item[0] }} likes {{ item[1] }}"
+      with_nested:
+        - [Dog, Cat, Mouse]
+        - [Chips, Popcorn]

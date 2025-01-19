@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+
+  tasks:
+    - debug:
+        msg: |-
+          {% import 'utils.j2' as utils %}
+          {{ utils.add(3, 4) }}
+
+    - copy:
+        dest: /tmp/frame.txt
+        content: |-
+          {% import 'utils.j2' as utils %}
+          {{ utils.frame("Hello macro!") }}

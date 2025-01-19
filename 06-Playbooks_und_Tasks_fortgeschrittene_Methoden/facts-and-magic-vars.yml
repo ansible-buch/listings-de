@@ -1,0 +1,37 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Some facts
+      debug:
+        msg: >-
+          {{inventory_hostname}} ({{ansible_host}})
+          is a {{ansible_distribution}},
+          version {{ansible_distribution_major_version}}
+          ({{ansible_distribution_version}}),
+          family {{ansible_os_family}}
+
+    - name: Some magic variables
+      debug:
+        msg: >-
+          Your playbook is in {{playbook_dir}},
+          your inventory in {{inventory_dir}}.
+      run_once: true
+
+    - name: Group information
+      debug:
+        msg: Your groups (with hosts) are {{groups}}
+      run_once: true
+
+    - name: Host information
+      debug:
+        msg: Your Hosts are {{groups.all | sort}}
+      run_once: true
+
+    - name: Hostinfo
+      debug:
+        msg: >-
+          IPv4-addresses of {{item}} are
+          {{hostvars[item].ansible_all_ipv4_addresses}}
+      with_items: '{{groups.all | sort}}'
+      run_once: true

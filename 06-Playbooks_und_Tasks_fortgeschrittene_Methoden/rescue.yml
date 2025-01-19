@@ -1,0 +1,22 @@
+- hosts: debian
+
+  tasks:
+    - block:
+      - name: Create directory
+        file:
+          path: /tmp/download
+          state: directory
+
+      - name: Download some files from another server
+        get_url:
+          url: http://192.168.150.20/{{item}}
+          dest: /tmp/download/{{item}}
+        with_items: [index.html, test42.txt]
+
+      rescue:
+      - debug: msg="Something went wrong"
+
+      - name: Clean up
+        file:
+          path: /tmp/download
+          state: absent

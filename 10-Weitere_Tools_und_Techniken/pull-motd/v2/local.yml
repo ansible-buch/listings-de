@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Update package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Install required packages
+      apt:
+        name:
+          - cowsay
+          - fortunes-de
+
+    - name: Generate motd text
+      shell: /usr/games/fortune de | /usr/games/cowsay
+      register: fortune_cmd
+
+    - name: Write into /etc/motd
+      copy:
+        dest: /etc/motd
+        content: |
+          {{ fortune_cmd.stdout }}

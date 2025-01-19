@@ -1,0 +1,19 @@
+---
+- hosts:
+    - suse
+
+  tasks:
+    - name: Update all packages
+      zypper:
+        name: '*'
+        state: latest
+
+    - name: Reboot required?
+      command: zypper needs-rebooting
+      changed_when: false
+      failed_when: false
+      register: reboot_required
+
+    - name: Reboot
+      reboot:
+      when: reboot_required.rc != 0

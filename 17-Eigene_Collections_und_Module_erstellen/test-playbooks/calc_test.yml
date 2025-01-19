@@ -1,0 +1,12 @@
+- hosts: localhost
+
+  tasks:
+    - name: Calculate the sum of two numbers
+      local.demo.calculate:
+        number1: 3
+        number2: 4
+        operator: "+"
+      register: calc
+
+    - debug:
+        msg: The result is {{calc.result}}

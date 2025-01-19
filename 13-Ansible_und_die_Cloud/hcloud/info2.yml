@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+
+  vars:
+    api_token: "{{ lookup('passwordstore', 'ansible/hcloud/api_token') }}"
+
+  tasks:
+    - name: Gather hcloud server type infos
+      hetzner.hcloud.server_type_info:
+        api_token: "{{ api_token }}"
+      register: info
+
+    - debug: var=info
+
+    - name: Gather hcloud image infos
+      hetzner.hcloud.image_info:
+        api_token: "{{ api_token }}"
+      register: info
+
+    - debug: var=info

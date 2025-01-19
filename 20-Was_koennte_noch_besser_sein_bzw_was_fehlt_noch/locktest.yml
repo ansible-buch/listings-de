@@ -1,0 +1,34 @@
+---
+- name: Ein Locktest
+  hosts: localhost
+
+  vars:
+    lockfile_path: >
+      /tmp/ansible-playbook-{{ansible_play_name | hash('md5')}}.lock
+
+  pre_tasks:
+    - stat:
+        path: "{{lockfile_path}}"
+      register: lockfile
+
+    - fail:
+        msg: "This playbook is probably already running."
+      when: lockfile.stat.exists and not force_ignore_lock|default(false)
+
+    - name: Create lockfile
+      file:
+        path: "{{lockfile_path}}"
+        state: touch
+
+    - debug:
+        msg: "Lockfile created: {{lockfile_path}}"
+
+  post_tasks:
+    - name: Remove lockfile
+      file:
+        path: "{{lockfile_path}}"
+        state: absent
+
+  tasks:
+    - pause:
+        seconds: 10

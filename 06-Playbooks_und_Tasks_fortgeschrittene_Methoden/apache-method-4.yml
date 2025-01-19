@@ -1,0 +1,17 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Load system-specific parameters
+      include_vars: >
+        apache_{{ ansible_distribution | lower | replace(" ", "-") }}.yml
+
+    - name: Install Apache package
+      package:
+        name: "{{apache_package_name}}"
+
+    - name: Start service and enable start on boot
+      service:
+        name: "{{apache_service_name}}"
+        state: started
+        enabled: yes

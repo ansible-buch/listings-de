@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  vars:
+    list:
+      - [Dog, Cat, Mouse]
+      - [Ant, Donkey]
+
+  tasks:
+    - name: Nested list loop
+      debug: msg="Hello {{item}}!"
+      with_items: "{{list}}"

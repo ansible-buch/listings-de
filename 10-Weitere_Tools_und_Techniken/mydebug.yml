@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - debug: msg="This is always displayed"
+
+    - debug:
+        msg: "This is only displayed if mydebug is set"
+      when: mydebug is defined

@@ -1,0 +1,3 @@
+---
+- set_fact:
+    "{{ result_fact }}": "{{ x+y }}"

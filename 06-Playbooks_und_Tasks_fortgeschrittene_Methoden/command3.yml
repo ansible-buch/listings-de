@@ -1,0 +1,12 @@
+---
+- hosts: debian
+  gather_facts: no
+
+  tasks:
+    - name: Determine space requirements
+      command: df -h /
+      changed_when: false
+      register: df_cmd
+
+    - debug:
+        msg: '{{df_cmd.stdout_lines}}'

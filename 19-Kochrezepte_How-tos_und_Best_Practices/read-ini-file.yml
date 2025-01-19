@@ -1,0 +1,29 @@
+---
+- hosts: localhost
+  gather_facts: no
+
+  tasks:
+    - name: Method 1; requires community.general Version >= 8.2.0
+      block:
+      - set_fact:
+          config: >-
+            {{ lookup('file', 'config.ini') | community.general.from_ini }}
+
+      - debug:
+          msg: "Title: {{config.workshop.title}}"
+
+      ignore_errors: True
+
+
+    - name: Method 2 (only targeted access is possible)
+      set_fact:
+        workshop:
+          title: >-
+            {{ lookup('ini', 'title', section='workshop',
+               file='config.ini') }}
+          date: >-
+            {{ lookup('ini', 'date', section='workshop',
+               file='config.ini') }}
+
+    - debug:
+        msg: "Title: {{workshop.title}}"

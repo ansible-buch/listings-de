@@ -1,0 +1,41 @@
+---
+- assert:
+    that:
+      ansible_distribution_version is version('22.04', '==')
+
+- name: Update apt cache
+  apt:
+    update_cache: yes
+    cache_valid_time: 3600
+
+- name: Install some prereqs
+  apt:
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - gnupg
+
+- name: Import the repository signing key
+  get_url:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    dest: /etc/apt/keyrings/pgdg-archive-keyring.asc
+
+- name: Add PostgreSQL apt repo
+  apt_repository:
+    repo: >-
+      deb [signed-by=/etc/apt/keyrings/pgdg-archive-keyring.asc]
+      https://apt.postgresql.org/pub/repos/apt
+      {{ansible_lsb.codename}}-pgdg main
+    filename: pgdg
+    state: present
+
+- name: Install PostgreSQL 17
+  package:
+    name: postgresql-17
+    state: present
+
+- name: Start and enable service
+  service:
+    name: postgresql
+    state: started
+    enabled: true

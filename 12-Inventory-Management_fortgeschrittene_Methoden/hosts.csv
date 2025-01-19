@@ -1,0 +1,5 @@
+host,ip,group,user,become
+debian,192.168.150.10,test_hosts,vagrant,yes
+rocky,192.168.150.20,test_hosts,vagrant,yes
+suse,192.168.150.30,test_hosts,vagrant,yes
+ubuntu,192.168.150.40,test_hosts,vagrant,yes

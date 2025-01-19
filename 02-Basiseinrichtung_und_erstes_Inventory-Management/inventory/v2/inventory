@@ -1,0 +1,9 @@
+[test_hosts]
+debian
+rocky
+suse
+ubuntu
+
+[test_hosts:vars]
+ansible_user=vagrant
+ansible_become=yes

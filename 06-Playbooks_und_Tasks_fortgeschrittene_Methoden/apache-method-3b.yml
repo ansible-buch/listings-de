@@ -1,0 +1,28 @@
+---
+- hosts: all
+
+  vars:
+    tmp_anchor1: &package_service_default
+      package_name: apache2
+      service_name: apache2
+
+    apache:
+      Debian: *package_service_default
+      Ubuntu: *package_service_default
+
+      Rocky:
+        package_name: httpd
+        service_name: httpd
+
+      openSUSE Leap: *package_service_default
+
+  tasks:
+    - name: Install Apache package
+      package:
+        name: "{{apache[ansible_distribution]['package_name']}}"
+
+    - name: Start service and enable start on boot
+      service:
+        name: "{{apache[ansible_distribution]['service_name']}}"
+        state: started
+        enabled: yes

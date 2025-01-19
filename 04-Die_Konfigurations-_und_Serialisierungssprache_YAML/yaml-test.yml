@@ -1,0 +1,12 @@
+---
+animals:
+  - Dog
+  - Cat
+data:
+  int: 42
+  float: 3.1415
+  string: "Hello"
+  bool: true
+list_text: >
+  {{ list | join(', ') }}
+more_text: this may be incorrectly colored

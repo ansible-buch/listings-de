@@ -1,0 +1,7 @@
+---
+- hosts: debian
+  gather_facts: no
+
+  tasks:
+    - name: Determine space requirements
+      command: df -h /

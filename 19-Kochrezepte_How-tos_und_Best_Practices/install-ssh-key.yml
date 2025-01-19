@@ -1,0 +1,12 @@
+---
+- hosts: all
+  gather_facts: no
+
+  vars:
+    public_key_filename: ~/.ssh/id_rsa.pub
+
+  tasks:
+    - name: Install key from {{public_key_filename}}
+      authorized_key:
+        user: "{{ansible_user}}"
+        key:  "{{lookup('file', public_key_filename)}}"

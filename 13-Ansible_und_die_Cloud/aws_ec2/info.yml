@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Gather information about all regions
+      amazon.aws.aws_region_info:
+      register: info
+
+    - debug: var=info

@@ -1,0 +1,15 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Gather hcloud server type infos
+      hetzner.hcloud.server_type_info:
+      register: info
+
+    - debug: var=info
+
+    - name: Gather hcloud image infos
+      hetzner.hcloud.image_info:
+      register: info
+
+    - debug: var=info

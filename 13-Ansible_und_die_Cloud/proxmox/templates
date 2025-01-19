@@ -1,0 +1,8 @@
+[templates]
+debian  ansible_host=192.168.1.190 vmid=100
+rocky   ansible_host=192.168.1.191 vmid=101
+suse    ansible_host=192.168.1.192 vmid=102
+ubuntu  ansible_host=192.168.1.193 vmid=103
+
+[templates:vars]
+ansible_user=root

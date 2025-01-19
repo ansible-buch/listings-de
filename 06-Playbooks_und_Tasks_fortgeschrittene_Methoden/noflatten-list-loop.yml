@@ -1,0 +1,11 @@
+---
+- hosts: localhost
+  vars:
+    list:
+      - [Dog, Cat, Mouse]
+      - [Ant, Donkey]
+
+  tasks:
+    - name: List loop without flattening
+      debug: msg="Hello {{item}}!"
+      with_list: "{{list}}"

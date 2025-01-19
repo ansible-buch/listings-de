@@ -1,0 +1,13 @@
+---
+- hosts: all
+
+  tasks:
+    - name: Debian-related Tasks
+      block:
+      - name: Only on Debian-like systems (1)
+        debug: msg="Hello"
+
+      - name: Only on Debian-like systems (2)
+        debug: msg="Hello again"
+
+      when: ansible_os_family == "Debian"

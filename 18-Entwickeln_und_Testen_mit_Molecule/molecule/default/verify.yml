@@ -1,0 +1,36 @@
+---
+- name: Verify
+  hosts: all
+  gather_facts: false
+
+  vars:
+    key_filename:  /etc/apt/keyrings/pgdg-archive-keyring.asc
+    repo_filename: /etc/apt/sources.list.d/pgdg.list
+
+  tasks:
+    - name: Install file package
+      package:
+        name: file
+
+    - name: Test | Check content of key file
+      command: file {{key_filename}}
+      changed_when: false
+      register: file_cmd
+      failed_when: >
+        'PGP public key block Public-Key' not in file_cmd.stdout
+
+    - name: Test | "{{repo_filename}} has correct content"
+      lineinfile:
+        path: "{{repo_filename}}"
+        regexp: '^deb.*https://apt\.postgresql\.org/pub/repos/apt.*main$'
+        state: absent
+      check_mode: yes
+      register: conf
+      failed_when: conf is not changed
+
+    - name: Test | PostgreSQL service is running
+      wait_for:
+        port: 5432
+        timeout: 30
+      register: port_check
+      failed_when: port_check.failed

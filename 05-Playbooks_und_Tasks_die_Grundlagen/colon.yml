@@ -1,0 +1,6 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: "Tell me: What's the problem here?"
+      debug: 'msg="Now it works: Yay!"'

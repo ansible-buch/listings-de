@@ -1,0 +1,10 @@
+---
+- hosts: localhost
+
+  tasks:
+    - command: "echo 'No'"
+      register: cmd_task
+
+    - debug:
+        msg: "It said 'Yes'!"
+      when: cmd_task.stdout | bool

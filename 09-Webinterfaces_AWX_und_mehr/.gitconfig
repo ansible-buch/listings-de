@@ -1,0 +1,20 @@
+[user]
+        name = First User
+        email = user1@example.org
+[color]
+        ui = auto
+[diff]
+        wsErrorHighlight = all
+[core]
+        editor = vim
+        pager = less -FRX
+[push]
+        default = matching
+[pull]
+        ff = only
+[credential]
+        helper = cache --timeout=3600
+[http]
+        sslVerify = false
+[init]
+        defaultBranch = main

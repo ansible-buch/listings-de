@@ -1,0 +1,13 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Create directory /tmp/test123
+      file:
+        path: /tmp/test123
+        state: directory
+      register: file_task
+
+    - debug:
+        msg: "There was a change!"
+      when: file_task.changed

@@ -1,0 +1,18 @@
+---
+- hosts: debian
+
+  tasks:
+    - name: Startmessage
+      debug: msg="Here we go!"
+
+    - name: Copy file to /tmp
+      copy:
+        dest: /tmp
+        content: |
+          Inhalt der Datei
+
+    - name: Count running processes
+      command: ps -ef | wc -l
+      register: ps_count_cmd
+
+    - debug: var=ps_count_cmd.stdout

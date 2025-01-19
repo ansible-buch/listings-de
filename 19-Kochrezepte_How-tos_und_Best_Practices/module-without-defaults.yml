@@ -1,0 +1,19 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Create file1
+      file:
+        path: /tmp/file1
+        state: touch
+        owner: root
+        group: root
+        mode: 0755
+
+    - name: Create file2
+      file:
+        path: /tmp/file2
+        state: touch
+        owner: root
+        group: root
+        mode: 0755

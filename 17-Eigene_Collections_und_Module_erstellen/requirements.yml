@@ -1,0 +1,4 @@
+---
+collections:
+  - name: https://gitea.example.org/ansible/collection-local-demo.git
+    type: git

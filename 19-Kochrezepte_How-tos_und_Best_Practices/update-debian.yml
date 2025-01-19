@@ -1,0 +1,23 @@
+---
+- hosts:
+    - debian
+    - ubuntu
+
+  tasks:
+    - name: Update package index
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+
+    - name: Dist upgrade
+      apt:
+        upgrade: dist
+
+    - name: Reboot required?
+      stat:
+        path: /var/run/reboot-required
+      register: reboot_required
+
+    - name: Reboot
+      reboot:
+      when: reboot_required.stat.exists

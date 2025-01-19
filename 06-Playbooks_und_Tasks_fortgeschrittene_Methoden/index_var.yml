@@ -1,0 +1,14 @@
+---
+- hosts: localhost
+  vars:
+    list:
+      - Dog
+      - Cat
+      - Mouse
+
+  tasks:
+    - name: List loop
+      debug: msg="Animal No. {{num + 1}} is {{ item }}."
+      with_items: "{{list}}"
+      loop_control:
+        index_var: num

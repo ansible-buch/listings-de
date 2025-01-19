@@ -1,0 +1,14 @@
+---
+driver:
+  name: podman
+platforms:
+  - name: ubuntu2204
+    hostname: ubuntu-2204
+    image: geerlingguy/docker-ubuntu2204-ansible:latest
+    command: ""
+    pre_build_image: true
+# Just defaults:
+provisioner:
+  name: ansible
+verifier:
+  name: ansible

@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+
+  tasks:
+    - name: Loop over parallel lists
+      debug: msg="{{ item[0] }} is number {{ item[1] }}"
+      with_together:
+        - [Dog, Cat, Mouse]
+        - [one, two, three]

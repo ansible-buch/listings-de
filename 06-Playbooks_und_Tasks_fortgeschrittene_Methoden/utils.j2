@@ -1,0 +1,10 @@
+{% macro frame(text) -%}
++{{ "-" * (text | length + 2) }}+
+| {{text}} |
++{{ "-" * (text | length + 2) }}+
+{% endmacro %}
+
+
+{% macro add(a, b) -%}
+{{ a + b }}
+{%- endmacro %}

@@ -1,0 +1,20 @@
+---
+- hosts: localhost
+  vars:
+    data:
+      - name: Dog
+        sounds:
+          - woof
+          - growl
+      - name: Cat
+        sounds:
+          - meeow
+      - name: Mouse
+
+  tasks:
+    - name: Loop over subelements
+      debug: msg="{{ item[0].name }} says {{ item[1] }}."
+      with_subelements:
+        - '{{data}}'
+        - sounds
+        - { skip_missing: 1 }

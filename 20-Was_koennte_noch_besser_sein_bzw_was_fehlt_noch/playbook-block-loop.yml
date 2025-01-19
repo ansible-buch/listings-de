@@ -1,0 +1,12 @@
+---
+### Warning: This playbook is not executable! ###
+- hosts: localhost
+
+  tasks:
+    - block:
+      - debug: msg="Hello {{item}}"
+      - debug: msg="Hello again {{item}}"
+      with_items:
+        - Dog
+        - Cat
+        - Mouse
